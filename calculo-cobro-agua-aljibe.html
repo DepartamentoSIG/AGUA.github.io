@@ -150,8 +150,8 @@ details.tbl summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--wa
     <h2 id="h-par">Parámetros</h2>
     <fieldset>
       <legend><span class="dot" style="background:var(--water)"></span>Agua (ESVAL)</legend>
-      <div class="row"><label for="pm3">Precio neto por m³<small>Factura 2426162, sept. 2026: $1.064/m³</small></label><input id="pm3" type="number" value="1064" step="1" min="0"></div>
-      <div class="row"><label for="iva">IVA sobre el agua (%)<small>La municipalidad no recupera IVA: queda como costo</small></label><input id="iva" type="number" value="19" step="1" min="0"></div>
+      <div class="row"><label for="pm3">Agua potable por m³<small>Tarifa ESVAL Grupo 1, no punta: $1.365,51 (igual que en Tarifa ESVAL)</small></label><input id="pm3" type="number" value="1365.51" step="0.01" min="0"></div>
+      <div class="row"><label for="iva">IVA sobre el agua (%)<small>En 0, igual que en Tarifa ESVAL</small></label><input id="iva" type="number" value="0" step="1" min="0"></div>
       <div class="row"><label for="m3">Volumen entregado al mes (m³)<small>Factura sept.: 3.000 m³ · Bases: 950 puntos × 700 L/sem ≈ 2.882 m³</small></label><input id="m3" type="number" value="3000" step="10" min="1"></div>
       <div class="row"><label for="perdida">Pérdida / agua no entregada (%)<small>Rebalse, lavado de estanque, carga incompleta</small></label><input id="perdida" type="number" value="0" step="1" min="0" max="50"></div>
     </fieldset>
@@ -358,7 +358,7 @@ function calcRefs(p2){
   const refs=[
     ['<b>Tarifa ESVAL</b>','Agua potable + distribución ESVAL',p2,'us'],
     ['<b>Costo real</b>',`Agua + ${v('pct')}% operacional`,M1.precio,'us'],
-    ['Valparaíso, costo real total','Agua ESVAL + arriendo + municipales',M1.realL,'us'],
+    ['Valparaíso, costo real total','Agua (tarifa Grupo 1) + arriendo + municipales',M1.realL,'us'],
     ['Colina (2025)','$7 por litro + 1,5 UTM por viaje (camión 10.000 L)',(7*10000+1.5*u)/10000],
     ['Colina, solo el agua','$7 por litro',7],
     ['Linares','2,25 UTM por servicio de 10.000 L',2.25*u/10000],
