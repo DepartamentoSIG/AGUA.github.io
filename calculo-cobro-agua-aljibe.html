@@ -374,10 +374,12 @@ function show(n){
   ['1','2'].forEach(k=>{$('t'+k).setAttribute('aria-selected',k===n);$('m'+k).hidden=k!==n});
   $('tarifa').hidden=n!=='2';
   $('refsec').hidden=n==='2';
+  [['m1',n==='1'],['m2',n==='2'],['tarifa',n==='2'],['refsec',n==='1']].forEach(([id,on])=>{$(id).style.display=on?'':'none'});
   try{localStorage.setItem('metodo',n)}catch(e){}
 }
 $('t1').addEventListener('click',()=>show('1'));
 $('t2').addEventListener('click',()=>show('2'));
+show('2');
 try{const s=localStorage.getItem('metodo');if(s==='1')show('1')}catch(e){}
 if(location.hash==='#costoreal')show('1');
 
