@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cobro Agua Camión Aljibe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Archivo:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: una columna de planilla municipal — parámetros arriba, resultado destacado, respaldo documental abajo */
+:root{
+  --bg:#f5f7f8; --panel:#ffffff; --fg:#14212b; --muted:#5b6b77; --line:#d6dee3;
+  --accent:#0a6e8a; --accent-soft:#e1f0f4; --water:#2f8fb8; --truck:#b5651d; --warn:#9a6b00; --warn-soft:#fbf2dc;
+  --display:"Archivo",system-ui,sans-serif; --body:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f171c; --panel:#16222a; --fg:#e4ecf0; --muted:#94a6b2; --line:#2a3a44;
+  --accent:#5cc0dc; --accent-soft:#16323c; --water:#62b6dc; --truck:#e09a5a; --warn:#e8c065; --warn-soft:#2e2814; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f171c; --panel:#16222a; --fg:#e4ecf0; --muted:#94a6b2; --line:#2a3a44;
+  --accent:#5cc0dc; --accent-soft:#16323c; --water:#62b6dc; --truck:#e09a5a; --warn:#e8c065; --warn-soft:#2e2814; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:920px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+header .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,4.5vw,38px);line-height:1.1;margin:6px 0 8px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:19px;margin:0 0 12px}
+p{margin:0;max-width:68ch}
+.lead{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums;font-family:var(--mono)}
+section{display:grid;gap:12px}
+.result{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px;display:grid;gap:18px}
+.big{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end}
+.big .k{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.big .v{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,52px);line-height:1;color:var(--accent);font-variant-numeric:tabular-nums}
+.big .v.small{font-size:clamp(22px,4vw,28px);color:var(--fg)}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:var(--line)}
+.bar span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.params{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:13px;font-weight:500}
+.field small{color:var(--muted);font-size:12px}
+input[type=number],select{font:inherit;font-family:var(--mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--fg);width:100%;box-sizing:border-box}
+input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:12px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+tr:last-child td{border-bottom:0}
+tfoot td{font-weight:600}
+.steps{display:grid;gap:6px;font-size:14px}
+.steps div{display:flex;justify-content:space-between;gap:16px;border-bottom:1px dashed var(--line);padding:4px 0}
+.steps div span:first-child{color:var(--muted)}
+.note{background:var(--warn-soft);border-left:3px solid var(--warn);padding:12px 14px;border-radius:4px;font-size:14px}
+.note b{color:var(--warn)}
+ul{margin:0;padding-left:20px;display:grid;gap:4px;max-width:72ch}
+.src{font-size:13px;color:var(--muted)}
+.scen{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.scen button{font:inherit;text-align:left;display:grid;gap:2px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--fg);cursor:pointer}
+.scen button span{font-size:13px;color:var(--muted)}
+.scen button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.scen button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.cmp div{border:1px solid var(--line);border-radius:8px;padding:10px 14px;background:var(--panel)}
+.cmp .k{font-size:12px;color:var(--muted)}
+.cmp .v{font-family:var(--display);font-weight:600;font-size:22px;font-variant-numeric:tabular-nums}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Dirección de Operaciones · Laguna Verde · Agua potable en camión aljibe</div>
+  <h1>¿Cuánto cuesta entregar 100 litros de agua?</h1>
+  <p class="lead">Costo real por litro = agua comprada a ESVAL + costo del camión que la reparte. El costo de los 3 camiones municipales se asume igual al de un camión arrendado, prorrateado desde los estados de pago de febrero a agosto 2026.</p>
+</header>
+
+<section class="result" aria-live="polite">
+  <div class="big">
+    <div><div class="k">Costo por 100 litros</div><div class="v" id="r100">—</div></div>
+    <div><div class="k">Por 1.000 litros (1 m³)</div><div class="v small" id="r1000">—</div></div>
+    <div><div class="k">Costo total mensual de la flota</div><div class="v small" id="rMes">—</div></div>
+  </div>
+  <div class="bar" id="bar"><span id="bW" style="background:var(--water)"></span><span id="bT" style="background:var(--truck)"></span></div>
+  <div class="legend"><span><i style="background:var(--water)"></i>Agua ESVAL <b class="num" id="lW"></b></span><span><i style="background:var(--truck)"></i>Transporte (camión, chofer, mantención, combustible) <b class="num" id="lT"></b></span></div>
+  <div class="steps" id="steps"></div>
+</section>
+
+<section>
+  <h2>Parámetros</h2>
+  <div class="params">
+    <div class="field"><label for="pM3">Precio agua ESVAL por m³ (neto)</label><input id="pM3" type="number" value="1064" step="1"><small>Factura 2426162, sept. 2026</small></div>
+    <div class="field"><label for="iva">IVA (%)</label><input id="iva" type="number" value="19" step="1"><small>La municipalidad no recupera IVA</small></div>
+    <div class="field"><label for="base">Costo mensual por camión</label>
+      <select id="base">
+        <option value="prom">Promedio pagado feb–ago 2026</option>
+        <option value="vig">Contrato vigente (jul–ago 2026)</option>
+        <option value="man">Ingresar manualmente</option>
+      </select><small id="baseInfo"></small></div>
+    <div class="field"><label for="camMan">Costo manual por camión (c/IVA)</label><input id="camMan" type="number" value="11132637" step="1000" disabled><small>Se usa solo con “Ingresar manualmente”</small></div>
+    <div class="field"><label for="nArr">Camiones arrendados</label><input id="nArr" type="number" value="5" step="1"></div>
+    <div class="field"><label for="nMun">Camiones municipales</label><input id="nMun" type="number" value="3" step="1"><small>Se valorizan al mismo costo que uno arrendado</small></div>
+    <div class="field"><label for="vol">Litros entregados al mes, toda la flota</label><input id="vol" type="number" value="4800000" step="10000"><small id="volInfo">Elige un escenario abajo o escribe el dato real</small></div>
+  </div>
+  <div class="scen" role="group" aria-label="Escenario de volumen">
+    <button type="button" id="sB" data-v="4800000" aria-pressed="true"><b>Litros según fichas de entrega</b><span>≈600 m³ por camión al mes (feb. 2026) × 8 = 4.800 m³</span></button>
+  </div>
+</section>
+
+<section>
+  <h2>Respaldo: estados de pago del arriendo</h2>
+  <p class="src">Contrato “Arriendo de 5 camiones aljibe de 10.000 litros, agua potable Laguna Verde”, Sociedad Comercial DLM SpA. OC 2426-76-CM25 hasta el 23/06 y OC 2426-34-CM26 desde el 24/06. El valor hora incluye camión, chofer, mantención y combustible.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Mes</th><th>Oficio D.O.</th><th>Horas</th><th>Valor hora</th><th>Neto</th><th>Total c/IVA</th><th>Por camión</th></tr></thead>
+    <tbody id="tb"></tbody>
+    <tfoot id="tf"></tfoot>
+  </table></div>
+</section>
+
+<section>
+  <h2>Supuestos y advertencias</h2>
+  <div class="note"><b>Cómo se calcula el operativo por 100 litros.</b> Un camión cuesta lo mismo al mes, reparta mucho o poco. Para saber cuánto le toca a cada 100 litros, se divide lo que cuestan los camiones en el mes por los litros que repartieron ese mes. Por eso hace falta saber cuántos litros se reparten. Ese dato sale de las fichas de entrega: en febrero, cerca de 600.000 litros por camión (leído automáticamente y en forma parcial). Con el total exacto de las fichas, el cálculo queda firme.</div>
+  <h2 style="margin-top:8px">Resumen: agua + operativo</h2>
+  <p class="src">Total por 100 litros = agua ESVAL + operativo del camión. Las dos filas usan los mismos litros; solo cambia el precio por hora del camión: el promedio de lo pagado entre febrero y agosto, o el precio del contrato nuevo vigente desde el 24/06/2026.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Litros repartidos al mes</th><th>Precio del camión</th><th>Agua ESVAL</th><th>+ Operativo camión</th><th>= Total por 100 L</th></tr></thead>
+    <tbody id="cmp"></tbody>
+  </table></div>
+  <ul>
+    <li>Los 3 camiones municipales se valorizan igual que uno arrendado. Cuando tengas el gasto real en combustible, mantención y sueldo de choferes municipales, conviene reemplazar ese supuesto.</li>
+    <li>Febrero tuvo 28 días y menos horas, por eso es el mes más bajo. Junio suma los dos contratos.</li>
+    <li>Desde el 24/06/2026 el valor hora subió de $41.900 a $43.900 neto (+4,8%). Para fijar un cobro hacia adelante, el contrato vigente refleja mejor el costo actual.</li>
+    <li>Esto calcula el costo total. Cuánto de ese costo se traspasa a las familias (subsidio parcial, tramos por Registro Social de Hogares, etc.) es una decisión aparte que debe fijarse en la ordenanza de derechos.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+const meses=[
+ ["Febrero","1179",1020,41900,50858220],
+ ["Marzo","1816",1110,41900,55345710],
+ ["Abril","2206",1110,41900,55345710],
+ ["Mayo","2486",1095,41900,54597795],
+ ["Junio 1–23","3015",855,41900,42631155],
+ ["Junio 24–30","3090",255,43900,13321455],
+ ["Julio","3191",1155,43900,60338355],
+ ["Agosto","3471",1095,43900,57203895]
+];
+const $=id=>document.getElementById(id);
+const clp=n=>"$"+Math.round(n).toLocaleString("es-CL");
+const totalPag=meses.reduce((s,m)=>s+m[4],0);
+const nMeses=7;
+const promCam=totalPag/nMeses/5;
+const vigCam=(60338355+57203895)/2/5;
+// tabla
+$("tb").innerHTML=meses.map(m=>`<tr><td>${m[0]}</td><td class="num">${m[1]}</td><td class="num">${m[2].toLocaleString("es-CL")}</td><td class="num">${clp(m[3])}</td><td class="num">${clp(m[2]*m[3])}</td><td class="num">${clp(m[4])}</td><td class="num">${clp(m[4]/5)}</td></tr>`).join("");
+const hrs=meses.reduce((s,m)=>s+m[2],0);
+$("tf").innerHTML=`<tr><td>Total 7 meses</td><td></td><td class="num">${hrs.toLocaleString("es-CL")}</td><td></td><td class="num">${clp(meses.reduce((s,m)=>s+m[2]*m[3],0))}</td><td class="num">${clp(totalPag)}</td><td class="num">${clp(totalPag/5)}</td></tr>
+<tr><td>Promedio mensual</td><td></td><td class="num">${Math.round(hrs/nMeses).toLocaleString("es-CL")}</td><td></td><td></td><td class="num">${clp(totalPag/nMeses)}</td><td class="num">${clp(promCam)}</td></tr>`;
+
+function calc(){
+  const b=$("base").value; $("camMan").disabled=b!=="man";
+  const cam=b==="prom"?promCam:b==="vig"?vigCam:(+$("camMan").value||0);
+  $("baseInfo").textContent=b==="prom"?`${clp(promCam)} por camión al mes (c/IVA)`:b==="vig"?`${clp(vigCam)} por camión al mes (c/IVA)`:"";
+  const n=(+$("nArr").value||0)+(+$("nMun").value||0);
+  const vol=+$("vol").value||0;
+  const m3=vol/1000;
+  const aguaM3=(+$("pM3").value||0)*(1+(+$("iva").value||0)/100);
+  const flota=cam*n;
+  const aguaMes=aguaM3*m3;
+  const tot=flota+aguaMes;
+  const per100=vol?tot/vol*100:0, w100=vol?aguaMes/vol*100:0, t100=vol?flota/vol*100:0;
+  $("r100").textContent=vol?clp(per100):"—";
+  $("r1000").textContent=vol?clp(per100*10):"—";
+  $("rMes").textContent=clp(tot);
+  const pw=tot?aguaMes/tot*100:0;
+  $("bW").style.width=pw+"%"; $("bT").style.width=(100-pw)+"%";
+  $("lW").textContent=clp(w100)+" (" + pw.toFixed(1).replace(".",",")+"%)";
+  $("lT").textContent=clp(t100)+" (" + (100-pw).toFixed(1).replace(".",",")+"%)";
+  $("steps").innerHTML=[
+    ["Costo por camión al mes (c/IVA)",clp(cam)],
+    [`× ${n} camiones = costo transporte flota`,clp(flota)],
+    [`Agua: ${m3.toLocaleString("es-CL")} m³ × ${clp(aguaM3)} (c/IVA)`,clp(aguaMes)],
+    ["Costo total mensual",clp(tot)],
+    [`÷ ${vol.toLocaleString("es-CL")} litros × 100`,clp(per100)+" por 100 L"]
+  ].map(r=>`<div><span>${r[0]}</span><span class="num">${r[1]}</span></div>`).join("");
+}
+function syncScen(){const v=+$("vol").value;["sB"].forEach(id=>$(id).setAttribute("aria-pressed",String(+$(id).dataset.v===v)));}
+["sB"].forEach(id=>$(id).addEventListener("click",()=>{$("vol").value=$(id).dataset.v;syncScen();calc();}));
+function cmp(){
+  const aguaM3=1064*1.19, n=8;
+  const rows=[["4.800 m³ (fichas)","Promedio pagado feb–ago",promCam,4800],["4.800 m³ (fichas)","Contrato vigente",vigCam,4800]];
+  $("cmp").innerHTML=rows.map(r=>{const L=r[3]*1000,w=aguaM3*r[3]/L*100,t=r[2]*n/L*100;return `<tr><td>${r[0]}</td><td style="text-align:left">${r[1]}</td><td class="num">${clp(w)}</td><td class="num">${clp(t)}</td><td class="num"><b>${clp(w+t)}</b></td></tr>`}).join("");
+}
+document.querySelectorAll("input,select").forEach(e=>e.addEventListener("input",()=>{syncScen();calc();}));
+cmp();syncScen();calc();
+</script>
+</body>
+</html>
